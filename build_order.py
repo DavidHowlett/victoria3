@@ -19,15 +19,12 @@ import pytest
 
 # This should live in a json file
 BUILDINGS = {
-    "iron mine": {'cost': 150, "iron production": 20},
-    "construction site": {"cost": 50, "iron production": 100}
+    "iron mine": {"cost": 150, "iron production": 20},
+    "construction site": {"cost": 50, "iron production": 100},
 }
 
-initial_buildings = {
-    "iron mine": 10,
-    "construction site": 10
-}
-IRON_BASE_PRICE = 15  # false
+initial_buildings = {"iron mine": 10, "construction site": 10}
+IRON_BASE_PRICE = 40
 
 
 def score():
@@ -48,27 +45,22 @@ def price_of_iron(supply, demand):
     elif demand == 0:
         price_modifier = 0.25
     else:
-        price_modifier = 1-0.75*(supply-demand)/min(supply, demand)
+        price_modifier = 1 - 0.75 * (supply - demand) / min(supply, demand)
         price_modifier = min(1.75, price_modifier)
         price_modifier = max(0.25, price_modifier)
-    return IRON_BASE_PRICE*price_modifier
+    return IRON_BASE_PRICE * price_modifier
 
 
 def test_price_of_iron():
-    assert price_of_iron(0,0) == IRON_BASE_PRICE
-    assert price_of_iron(1,0) == 0.25*IRON_BASE_PRICE
-    assert price_of_iron(0,1) == 1.75*IRON_BASE_PRICE
-    assert price_of_iron(1,1) == IRON_BASE_PRICE
+    assert price_of_iron(0, 0) == IRON_BASE_PRICE
+    assert price_of_iron(1, 0) == 0.25 * IRON_BASE_PRICE
+    assert price_of_iron(0, 1) == 1.75 * IRON_BASE_PRICE
+    assert price_of_iron(1, 1) == IRON_BASE_PRICE
 
-    assert price_of_iron(10, 0) == 0.25*IRON_BASE_PRICE
-    assert price_of_iron(10, 5) == 0.25*IRON_BASE_PRICE
-    #assert price_of_iron(10, 9) == IRON_BASE_PRICE
+    assert price_of_iron(10, 0) == 0.25 * IRON_BASE_PRICE
+    assert price_of_iron(10, 5) == 0.25 * IRON_BASE_PRICE
+    # assert price_of_iron(10, 9) == IRON_BASE_PRICE
     assert price_of_iron(10, 10) == IRON_BASE_PRICE
-    #assert price_of_iron(10, 11) == IRON_BASE_PRICE
-    assert price_of_iron(10, 20) == 1.75*IRON_BASE_PRICE
-    assert price_of_iron(10, 999) == 1.75*IRON_BASE_PRICE
-
-
-
-
-
+    # assert price_of_iron(10, 11) == IRON_BASE_PRICE
+    assert price_of_iron(10, 20) == 1.75 * IRON_BASE_PRICE
+    assert price_of_iron(10, 999) == 1.75 * IRON_BASE_PRICE
