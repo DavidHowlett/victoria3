@@ -15,15 +15,15 @@ Factors not currently included in calculation in importance order:
 
 """
 
-import pytest
+import math
 
 # This should live in a json file
 BUILDINGS = {
-    "iron mine": {"cost": 150, "iron production": 20},
-    "construction site": {"cost": 50, "iron production": 100},
+    'iron mine': {'cost': 150, 'iron production': 20},
+    'construction site': {'cost': 50, 'iron production': 100},
 }
 
-initial_buildings = {"iron mine": 10, "construction site": 10}
+initial_buildings = {'iron mine': 10, 'construction site': 10}
 IRON_BASE_PRICE = 40
 
 
@@ -35,6 +35,7 @@ def score():
 
 
 def price_of_iron(supply, demand):
+    """given the supply and demand, what should the price be?"""
     assert supply >= 0
     assert demand >= 0
 
@@ -52,6 +53,7 @@ def price_of_iron(supply, demand):
 
 
 def test_price_of_iron():
+    """tests the price with a few examples I know to be correct"""
     assert price_of_iron(0, 0) == IRON_BASE_PRICE
     assert price_of_iron(1, 0) == 0.25 * IRON_BASE_PRICE
     assert price_of_iron(0, 1) == 1.75 * IRON_BASE_PRICE
@@ -59,8 +61,8 @@ def test_price_of_iron():
 
     assert price_of_iron(10, 0) == 0.25 * IRON_BASE_PRICE
     assert price_of_iron(10, 5) == 0.25 * IRON_BASE_PRICE
-    # assert price_of_iron(10, 9) == IRON_BASE_PRICE
+    assert math.isclose(price_of_iron(10, 9), 36.666666666666664)
     assert price_of_iron(10, 10) == IRON_BASE_PRICE
-    # assert price_of_iron(10, 11) == IRON_BASE_PRICE
+    assert math.isclose(price_of_iron(10, 11), 43)
     assert price_of_iron(10, 20) == 1.75 * IRON_BASE_PRICE
     assert price_of_iron(10, 999) == 1.75 * IRON_BASE_PRICE
